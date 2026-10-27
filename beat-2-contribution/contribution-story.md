@@ -55,10 +55,9 @@ happened; these entries are the toolkit's own timeline.
 All four entries are graded. Keep every heading below, and fill each
 one in the week it belongs to.
 
-**Unit 5: [one line on the tool work]**
+**Unit 5: I had Codex install the issue-scout overlay and build a reviewed shortlist**
 
-[2-4 sentences: what you built (the scout, your strategy), what broke
-or fell short, what changed because of it.]
+I asked Codex to overlay the Unit 5 scout on my Unit 1 rubric and fit profile, and write three `gh search issues` queries with free ranking rules. Claude Code's scan command could not run because its OAuth session had expired, so Codex ran the searches and manually applied the rubric to the top five results, then reviewed two picks from the course issue site: Logixia #9 passed and #30 was rejected because another contributor had an active PR. The manual fallback and evidence are recorded separately; no Claude course credit was used, and I did not claim an issue. I recorded the login failure and manual review so I can rerun the scan with Claude after reauthentication and continue the story in Units 6–8.
 
 **Unit 6: [one line on the tool work]**
 
