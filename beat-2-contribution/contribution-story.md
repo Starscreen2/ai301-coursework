@@ -11,7 +11,7 @@ files and no evidence uploads are part of Assignment 5.
 **Student:** Puyang He
 **GitHub Username:** Starscreen2
 **Issue:** https://github.com/Logixia/logixia/issues/9
-**Pull Request:** [GitHub PR link, once opened]
+**Pull Request:** https://github.com/Logixia/logixia/pull/83
 
 One repository, built across units 5 to 8, telling the whole story of your real
 contribution. Fill it as you work, not at the end — the sections below ask for evidence that
@@ -62,10 +62,9 @@ I asked Codex to overlay the Unit 5 scout on my Unit 1 rubric and fit profile, a
 
 After Claude Code OAuth completed, I used the voice guard to check my claim draft and posted it to [Logixia #9](https://github.com/Logixia/logixia/issues/9#issuecomment-6454333818). Claude's rubric re-grade accepted #9 and rejected #30 because an open PR and another contributor's current claim made #30 unavailable; that review also exposed and corrected a stale scope rule in my rubric. I started the reproduction report at upstream commit `e0ce05abf2ed10e3143be406d64228db9c5d6381`: existing tests already cover ID generation, fetch use, and parts of middleware/request handling, while a repo-wide search of 74 TypeScript test files found no direct references to five remaining helpers. I kept `CLAUDE.local.md` excluded from Git and made no source or test changes during this baseline reproduction.
 
-**Unit 7: [one line on the tool work]**
+**Unit 7: I packaged and installed the ship-gate, then ran it on the real branch**
 
-[2-4 sentences: the ship-gate and your gate manifest. What it produced
-on your real branch, what fought you, what changed because of it.]
+I packaged the Logixia-scoped `pr-precheck` with a `gh pr create` hook, manifest runner, config, and idempotent installer; installing twice preserved the existing voice guard and added only one gate hook. My root-level manifest requires the focused and full Jest suites, typecheck, and lint, and records dated reasons for excluding the production build and whole-repo format check. The first real-branch run passed the checks but blocked because the test file was still untracked; I committed and pushed `e9acda0`, reran the gate, and all five PR checks passed, so I opened [PR #83](https://github.com/Logixia/logixia/pull/83). **Student-reported time estimate: 2 hours; not independently timed.**
 
 **Unit 8: [one line on the tool work]**
 
@@ -156,45 +155,39 @@ macOS 26.6.2, Node.js v22.22.1, npm 10.9.2, and `rg` were available. I cloned my
 
 **Analysis**
 
-[Your analysis of the root cause: what is causing the issue, traced
-to the files and functions involved.]
+This is a test-coverage gap, not a reproduced production-code defect. At the baseline commit, `src/correlation.ts` had several exported helpers with no direct references in the test tree. Existing tests already covered ID generation, fetch propagation, and parts of middleware/request handling, so the issue's opening statement was stale. The helpers use `LogixiaContext` from `src/context/async-context.ts`; their observable contracts can be exercised with fake HTTP request/reply objects, a fake logger, and plain Kafka/SQS message shapes.
 
 **Proposed Solution**
 
-[High-level description of your fix approach, and what you are
-deliberately NOT changing.]
+Add `src/__tests__/correlation.test.ts` with focused tests for context scoping, Express middleware, the Fastify hook, the Axios interceptor, request metadata and forwarded IP, Kafka/SQS/envelope extraction, Kafka header construction, and ID generation. Keep production code, dependencies, package metadata, and public documentation unchanged; report a newly discovered bug separately rather than making an unplanned fix.
 
 **Implementation Plan**
 
-1. [Modify file X to do Y]
-2. [Add or change Z]
-3. [Update tests]
+1. Add fake-object tests for context helpers and both request middleware shapes, including generation and response-header opt-out.
+2. Add tests for the Axios interceptor, child logger fields, and the supported message and Kafka-header forms.
+3. Run the focused Jest file, the full suite, typecheck, and lint; keep the diff limited to the new test file.
 
-[Record deviations here as they happen: what changed mid-build and
-why. A recorded deviation is honest work; silent drift is not.]
+**Deviations:** The issue said none of the nine exports had tests, but Unit 6's broad search showed existing partial coverage. I added the requested missing cases in one dedicated file and included direct contract assertions for already-covered helpers. The checkout has no package lock, so I installed dependencies with `HUSKY=0 npm install --no-package-lock`; no dependency files were added to the diff.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: Codex edited the test-only branch using the issue checklist, existing Jest conventions, and `CLAUDE.local.md` subsystem notes.
+- What it produced: `src/__tests__/correlation.test.ts`, with 20 focused cases covering the requested helper behavior.
+- Difficulties: `npm ci` could not run because the upstream checkout has no lockfile.
+- What changed: installed declared dependencies without creating or committing a lockfile; production source remained untouched.
 
 ---
 
 ## Testing Strategy
 
-[What observable checks prove the fix: your reproduction steps re-run
-against the built change (before and after), and the repo's own test
-suite or checks with the outcome shown. "Tests pass" with nothing
-observable named is not a strategy.]
+The issue asks for focused coverage, so the decisive check is `npx jest src/__tests__/correlation.test.ts`: it exercises the listed inputs and context boundaries. The candidate result is 1 suite and 20 tests passed. Repository checks passed too: `npm test -- --runInBand` reported 73 suites passed, 1 skipped, 1,140 tests passed, 1 skipped; `npm run typecheck` (`tsc --noEmit`) and `npm run lint` (`eslint src/`) both exited 0. Production source was not changed, so no source-level failure/fix comparison is claimed.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: Jest and the repository's npm scripts, run on `codex/9-correlation-tests` at Node.js v22.22.1 and npm 10.9.4.
+- What it produced: focused suite 20/20; full suite 1,140 passed and 1 skipped; typecheck and lint passed.
+- Difficulties: the initial clean-install command was unavailable because there is no package lock; the install reported three dependency audit advisories.
+- What changed: used `npm install --no-package-lock`, preserved the repository manifests, and recorded the advisory count without applying unrelated dependency updates.
 
 ---
 
@@ -203,46 +196,42 @@ observable named is not a strategy.]
 [A running log, added to as you work. Date each entry. What you
 built, decisions you made when you made them, wrong turns included.]
 
-**[Date]**
+**2026-10-27**
 
-[Entry]
+Created branch `codex/9-correlation-tests` from upstream `main` and added only `src/__tests__/correlation.test.ts`. The focused tests, full test suite, typecheck, and lint passed. The first ship-gate run blocked on the untracked file; after commit `e9acda0` and push to my fork, it passed all five checks and PR #83 was opened.
 
-**[Date]**
+**2026-10-27**
 
-[Entry]
+No production implementation was needed for this test-only issue. The new tests cover behavior named in #9; I did not infer or patch a runtime bug.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: Git for the fork branch and Codex for focused tests, test evidence, and story notes.
+- What it produced: one new test file and a repeatable branch state with all required repo checks green.
+- Difficulties: the base repository omits a lockfile; the first install attempt with `npm ci` stopped before installing packages.
+- What changed: dependencies were installed without modifying the repository's package metadata; no source bug or extra change was added.
 
 ---
 
 ## Pull Request
 
-**PR Link:** [GitHub PR URL when opened]
+**PR Link:** https://github.com/Logixia/logixia/pull/83
 
-**PR Description:** [what the PR says; much of the content above
-adapts into it]
+**PR Description:** Adds the focused tests in `src/__tests__/correlation.test.ts` for correlation context, middleware, Fastify, Axios, child request metadata, Kafka/SQS/envelope extraction, Kafka headers, and UUIDs. It states that existing partial coverage made the issue's opening claim stale, links `Closes #9`, lists the four passing checks, and discloses Codex assistance.
 
 **Maintainer Feedback:**
 
-- [Date]: [feedback received, or "none yet"; silence is a normal
-  state and costs you nothing]
-- [Date]: [how you addressed it]
+- 2026-10-27: no maintainer feedback yet; the PR was just opened.
+- No feedback to address yet.
 
-**Status:** [Awaiting review / Iterating / Merged / Closed. The
-status is a fact you record, never a grade: the PR is graded as
-opened.]
+**Status:** Open, awaiting review; the Conventional Commit title check passed on 2026-10-27.
 
 **Toolkit**
 
-- Tool:
-- What it produced:
-- Difficulties:
-- What changed:
+- Tool: `tools/ship-gate` runs the manifest checks and the live Logixia-scoped `pr-precheck`; its installed hook guards `gh pr create`, and the voice guard checks the outgoing description.
+- What it produced: first run blocked on the untracked test file; after commit and push, the gate passed all required checks and returned `accept`. The PR title/body passed the voice check and PR #83 is open.
+- Difficulties: `npm ci` was unavailable because the upstream checkout has no lockfile; the first gate run correctly saw no committed diff. A hook-driven Claude wrapper stalled before invoking the command, so I used the passing manual gate and voice check before opening the PR directly.
+- What changed: used `npm install --no-package-lock`, committed and pushed the single planned test file, expanded the grader turn limit after its first run hit the cap, and kept the initial block and successful rerun in the record.
 
 ---
 

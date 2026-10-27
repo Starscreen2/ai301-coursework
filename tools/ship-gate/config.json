@@ -1,0 +1,12 @@
+{
+  "name": "ship-gate",
+  "version": 1,
+  "install_directory": "~/.claude/ship-gate",
+  "hook_event": "PreToolUse",
+  "tool_matcher": "Bash",
+  "hook_command": "python3 \"$HOME/.claude/ship-gate/hooks/pretool.py\"",
+  "timeout_seconds": 900,
+  "status_message": "ship-gate: checking repository requirements before PR creation",
+  "precheck_max_turns": 40,
+  "precheck_max_budget_usd": 3
+}
