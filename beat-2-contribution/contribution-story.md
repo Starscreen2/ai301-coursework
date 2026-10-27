@@ -1,4 +1,4 @@
-# Contribution: [Issue Title]
+# Contribution: test: cover the correlation ID helpers in src/correlation.ts
 
 Path: `beat-2-contribution/contribution-story.md`
 
@@ -8,10 +8,9 @@ format criteria grade exactly that. Your course repo link is the whole submissio
 files and no evidence uploads are part of Assignment 5.
 
 **Contribution Number:** [1]
-**Student:** [Student name]
-**GitHub Username:** [your GitHub username, exactly as it appears on your profile - no @, no
-profile URL. Your comments upstream are identified by this name.]
-**Issue:** [GitHub issue link]
+**Student:** Puyang He
+**GitHub Username:** Starscreen2
+**Issue:** https://github.com/Logixia/logixia/issues/9
 **Pull Request:** [GitHub PR link, once opened]
 
 One repository, built across units 5 to 8, telling the whole story of your real
@@ -59,11 +58,9 @@ one in the week it belongs to.
 
 I asked Codex to overlay the Unit 5 scout on my Unit 1 rubric and fit profile, and write three `gh search issues` queries with free ranking rules. Claude Code's scan command could not run because its OAuth session had expired, so Codex ran the searches and manually applied the rubric to the top five results, then reviewed two picks from the course issue site: Logixia #9 passed and #30 was rejected because another contributor had an active PR. The manual fallback and evidence are recorded separately; no Claude course credit was used, and I did not claim an issue. I recorded the login failure and manual review so I can rerun the scan with Claude after reauthentication and continue the story in Units 6–8.
 
-**Unit 6: [one line on the tool work]**
+**Unit 6: I had Codex install the voice guard and prepare repo memory**
 
-[2-4 sentences: the voice-guard, the repo-memory file. What broke or
-fell short, and what changed because of it. "Nothing broke" counts when
-it is true - say how you know.]
+Codex helped extend my voice guide with rules for claims, questions, and pings, make it the shared guide for my installed skills, and install the voice-guard hook; the hook configuration was found and a direct wiring check stopped a comment command with no readable body. The claim-draft review could not run because Claude Code was logged out, so I left the GitHub claim pending instead of posting without the required check. Codex also prepared a short `CLAUDE.local.md` for the issue's subsystem and excluded it from Git so it stays in my fork.
 
 **Unit 7: [one line on the tool work]**
 
@@ -79,24 +76,16 @@ drafted, what you did with the draft.]
 
 ## Why I Chose This Issue
 
-[1-2 paragraphs in your own words: how you searched, what your scan
-surfaced, what your scout's verdict said, why this issue fits your
-profile, and what you hope to learn. If your scout's verdict on it
-was reject and you chose it anyway, say so here and say why; choosing
-against your own tool silently is what loses points. Close with an
-honest read of the tool itself: where the scout fell short on a real
-wild search and what you changed or would change, or what convinced
-you it held up. **Record the link to your claim comment in this section too.**
-Not claimed yet? Write `claim pending` and today's date where the link goes,
-and add the link the moment your claim lands.]
+I found [Logixia issue #9](https://github.com/Logixia/logixia/issues/9) on the AI301 Issue Selection site. Codex manually rechecked it against my updated rubric because Claude Code could not authenticate. The manual result was accept, straightforward: the issue names `src/correlation.ts`, the requested test file, nine exports, and concrete test cases; the live thread has no comments, assignee, or linked open PR. The test-only TypeScript work fits the profile I saved in Unit 1, and I want to learn how this repository uses its correlation context and test patterns.
+
+Codex helped with the search and grading, so I read the live issue and `CONTRIBUTING.md` before choosing. The rubric’s old strict scope gate would have rejected issues with open edges; I replaced it with `scope-feasible` and a difficulty note, then manually rechecked #9 and rejected #30 because another contributor has an active claim and open PR. This is a manual fallback, not the required Claude scout result. **Claim comment:** claim pending — 2026-10-27; the required voice check is blocked by the expired Claude Code login, so I have not posted a comment.
 
 **Toolkit**
 
-- Tool: issue-scout (your scout: your search strategy, your rubric),
-  and how you used it
-- What it produced: [the scan and its verdict on this issue, described]
-- Difficulties: [where it fell short, or "none met" if none did]
-- What changed: [what you patched or would update, or "nothing"]
+- Tool: issue-scout search strategy and rubric, with Codex doing a documented manual fallback after Claude Code authentication failed.
+- What it produced: a manual accept for #9 with a straightforward difficulty note, based on its named test file, explicit cases, and current open ownership state.
+- Difficulties: the required Claude scan and re-grade could not run, so no Claude grading credit was used.
+- What changed: replaced the strict newcomer-scope check with `scope-feasible` and added non-verdict difficulty notes; manually rechecked #9 and #30.
 
 ---
 
