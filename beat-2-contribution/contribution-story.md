@@ -66,10 +66,9 @@ After Claude Code OAuth completed, I used the voice guard to check my claim draf
 
 I packaged the Logixia-scoped `pr-precheck` with a `gh pr create` hook, manifest runner, config, and idempotent installer; installing twice preserved the existing voice guard and added only one gate hook. My root-level manifest requires the focused and full Jest suites, typecheck, and lint, and records dated reasons for excluding the production build and whole-repo format check. The first real-branch run passed the checks but blocked because the test file was still untracked; I committed and pushed `e9acda0`, reran the gate, and all five PR checks passed, so I opened [PR #83](https://github.com/Logixia/logixia/pull/83). **Student-reported time estimate: 2 hours; not independently timed.**
 
-**Unit 8: [one line on the tool work]**
+**Unit 8: I installed the PR monitor and wrote a playbook for when to wait or follow up**
 
-[2-4 sentences: the PR-monitor and your playbook. What it read, what it
-drafted, what you did with the draft.]
+I installed the headless PR monitor and wrote its playbook from Logixia's contribution guidance, my voice-guide rules, and recent PR activity; the repository gives no review-time promise, so my first-review threshold is 14 days. The free state run found PR #83 open for under a day, with no comments or reviews, one passing title check, and GitHub still awaiting review. The full run drafted a wait note, explaining that the threshold was unmet and that nothing should be sent; I reviewed it and left it unposted. The tool's “polite nudge” label was broader than the action in its body, so I checked the actual draft and followed its explicit wait decision.
 
 ---
 
@@ -193,9 +192,6 @@ The issue asks for focused coverage, so the decisive check is `npx jest src/__te
 
 ## Implementation Notes
 
-[A running log, added to as you work. Date each entry. What you
-built, decisions you made when you made them, wrong turns included.]
-
 **2026-10-27**
 
 Created branch `codex/9-correlation-tests` from upstream `main` and added only `src/__tests__/correlation.test.ts`. The focused tests, full test suite, typecheck, and lint passed. The first ship-gate run blocked on the untracked file; after commit `e9acda0` and push to my fork, it passed all five checks and PR #83 was opened.
@@ -203,6 +199,10 @@ Created branch `codex/9-correlation-tests` from upstream `main` and added only `
 **2026-10-27**
 
 No production implementation was needed for this test-only issue. The new tests cover behavior named in #9; I did not infer or patch a runtime bug.
+
+**2026-10-27**
+
+Installed the Unit 8 monitor and wrote a personal playbook. Its state-only canary found PR #83 open for under a day, with no comments or reviews, one passing title check, and review still required. The full run produced a wait note because my 14-day first-review threshold was not met; I checked the body against the broader “polite nudge” label and did not post anything.
 
 **Toolkit**
 
@@ -221,10 +221,9 @@ No production implementation was needed for this test-only issue. The new tests 
 
 **Maintainer Feedback:**
 
-- 2026-10-27: no maintainer feedback yet; the PR was just opened.
-- No feedback to address yet.
+- 2026-10-27: the PR monitor read the live thread; there were no maintainer comments or reviews, so there was no feedback to address.
 
-**Status:** Open, awaiting review; the Conventional Commit title check passed on 2026-10-27.
+**Status:** Open, awaiting review; at the Unit 8 monitor run on 2026-10-27, the PR was mergeable, review was required, and the Conventional PR title check passed.
 
 **Toolkit**
 
@@ -239,25 +238,20 @@ No production implementation was needed for this test-only issue. The new tests 
 
 **Technical Skills Gained**
 
-[What you learned technically, named concretely.]
+I learned to distinguish GitHub's `REVIEW_REQUIRED` and `BLOCKED` states from a problem with the patch, and to treat mergeability and check results as separate evidence. I also used a headless monitor's read-only state mode, per-PR run history, and playbook-driven draft mode, then checked that its output remained a local draft rather than a posted comment.
 
 **Challenges Overcome**
 
-[What was hard and how you solved it; point at the real events, the
-Toolkit blocks above are full of them.]
+The monitor's move label said “polite nudge” even though its body correctly said to wait. I read the full draft against my playbook instead of treating the label as an instruction; the PR was less than a day old and had no maintainer activity, so I sent nothing. The repository gives no review SLA, and a small sample of recent PRs did not support a reliable average, so I chose a conservative 14-day first-review threshold and recorded why.
 
 **What I'd Do Differently Next Time**
 
-[Reflection on your process.]
+I would write down the repository's response guidance and my follow-up threshold when I open the PR, then use the monitor's state-only mode before asking any tool to draft a response. I would also check the draft's actual action and rationale, not just its move label, and revisit the decision only when the thread changes or my stated threshold is reached.
 
 ---
 
 ## Resources Used
 
-[What actually helped, not a reading list. List things this story
-already shows you using: the doc you followed to set the environment
-up, the thread that explained the bug, the person who answered you.
-One real entry beats ten plausible ones.]
-
-- [Link to documentation that helped]
-- [Discussion, issue, or post that helped]
+- Logixia's [CONTRIBUTING.md](https://github.com/Logixia/logixia/blob/main/CONTRIBUTING.md), especially its patience guidance, test requirements, and PR review rules.
+- The AI301 Unit 8 starter's `skill/INSTALL.md`, `skill/monitor.py`, and `skill/playbook-template.md`, used to install the monitor, inspect live state, and write the playbook.
+- The live [PR #83 thread](https://github.com/Logixia/logixia/pull/83), which the monitor read and which had no comments or reviews during this run.
