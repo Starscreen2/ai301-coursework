@@ -33,18 +33,9 @@ Toolkit points read, and they are the raw material for your unit-9
 portfolio, so keep them current as you work rather than
 reconstructing them later.
 
-A Toolkit block looks like this (copy it into each story section and
-fill it there):
-
-```text
-**Toolkit**
-
-- Tool: [which tool did this phase's work, and how you used it]
-- What it produced: [described in a sentence or a short excerpt]
-- Difficulties: [what fought you or fell short, or "none met"]
-- What changed: [the patch, revision, or workaround, what you would
-  update, or "nothing"]
-```
+Each section below has a Toolkit block with four fields: Tool, What it
+produced, Difficulties, and What changed. Keep those fields concrete
+and specific to that phase.
 
 This section also keeps one short dated entry per week of tool work,
 starting below: what you built or changed that week, what broke, and
@@ -129,15 +120,12 @@ macOS 26.6.2, Node.js v22.22.1, npm 10.9.2, and `rg` were available. I cloned my
 **Reproduction Evidence**
 
 - **Commit showing reproduction:** none; this was a baseline-only check at `e0ce05abf2ed10e3143be406d64228db9c5d6381`, with no source or test changes.
-- **Screenshots/logs:** literal output from the two commands above:
+- **Command output:** the first search returned no matching lines and `rg` exited 1; the positive-control search returned these existing imports and exited 0:
 
   ```text
-  [search for the five uncovered exports: no matching lines]
-  exit=1
   src/__tests__/correlation-header-case.test.ts:11:import { childFromRequest, correlationMiddleware } from '../correlation';
   src/__tests__/correlation-id.test.ts:10:import { generateCorrelationId } from '../correlation';
   src/__tests__/correlation-fetch.test.ts:13:import { correlationFetch, withCorrelationId } from '../correlation';
-  exit=0
   ```
 - **My findings:** the old “no tests at all” description is too broad today. Three existing correlation test files cover ID generation, fetch use, and parts of middleware/request behavior; five named helpers still have no direct references across the searched test tree. No runtime bug was reproduced because I did not run tests or execute a failing scenario.
 
